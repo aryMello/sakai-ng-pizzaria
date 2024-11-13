@@ -1,3 +1,4 @@
+const path = require('path');
 const fs = require('fs');
 
 const envConfigFile = `
@@ -15,6 +16,13 @@ export const environment = {
 };
 `;
 
-fs.writeFileSync('./src/environments/environment.prod.ts', envConfigFile);
-fs.writeFileSync('./src/environments/environment.ts', envConfigFile);
+const environmentsPath = path.join(__dirname, 'src', 'environments');
+
+// Ensure the directory exists
+if (!fs.existsSync(environmentsPath)) {
+  fs.mkdirSync(environmentsPath, { recursive: true });
+}
+
+fs.writeFileSync(path.join(environmentsPath, 'environment.prod.ts'), envConfigFile);
+fs.writeFileSync(path.join(environmentsPath, 'environment.ts'), envConfigFile);
 console.log('Environment config file generated');
