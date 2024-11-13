@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();  // Load environment variables from a .env file
 
 const envConfigFile = `
 export const environment = {
