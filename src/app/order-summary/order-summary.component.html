@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seu Carrinho</title>
+    <link rel="stylesheet" type="text/css" href="order-summary.component.scss">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <a routerLink="/Products" class="back-arrow">
+              <i class="fa-regular fa-chevron-left"></i>De volta a cardapio
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h1>Sua Sacola</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Preço</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orderItems; let i = index">
+                  <td>{{ item.name }}</td>
+                  <td>$ {{ item.price }}</td>
+                  <td><button class="delete-button" (click)="removeFromOrder(i)">Remover</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <p>Preço total: R$ {{ totalPrice }}</p>
+            <p>Numero de itens: {{ itemCount }}</p>
+            <button class="confirm-button" (click)="confirmPop()">Confirmar Pedido</button>
+
+            <button class="back-button" (click)="navigateToProducts()">Adicionar mais itens</button>
+            <div class="menu-edit-form" *ngIf="confirm">
+              <h2>Quem vai receber a entrega?</h2>
+              <form  #form="ngForm" (ngSubmit)="confirmOrder(form)">
+                <label for="Usuario">Nome:</label>
+                <input type="text" [(ngModel)]="Usuario" name="Usuario">
+                <label for="telf">Telefone:</label>
+                <input type="number" [(ngModel)]="telf" name="telf" pattern="[0-9]*" inputmode="numeric">
+                <button type="submit">Confirmar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="orderSuccess" class="order-success-message">
+        Sua pedido foi realizado com sucesso!
+      </div>
+      
+    </main>
+  </body>
+</html>

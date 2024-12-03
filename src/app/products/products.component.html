@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Pizzaria Angular</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <a class="navbar-brand" href="#">Pizzaria Angular</a>
+      <button class ="GoHome" (click)="goHome()" >Menu</button>
+      <button class ="Cart" (click)="navigateToOrderSummary(login)">Meu Carrinho</button>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <button class="sign-in-out" (click)="onClickLogout()" *ngIf="login == true">Sair</button>
+          <button class="sign-in-out" (click)="onClickLogin()" *ngIf="login == false">Login</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="menu-container">
+      <div class="menu-row">
+        <div class="menu-col" *ngFor="let menuItem of menuItems">
+          <div class="menu-item">
+
+            <a [routerLink] = "['/ProductDetail', menuItem.id]"><img [src]="menuItem.imagePath" alt="Menu item image"></a>
+
+            <!-- <img [src]="menuItem.imagePath" alt="Menu item image" [routerLink]="['/menuItems', menuItem.id]"> -->
+            <div class="menu-item-details">
+              <!-- <h3 class="menu-item-name">{{ menuItem.name }}</h3> -->
+              <h3 class="menu-item-name">{{ menuItem.name}}</h3>
+              <p class="menu-item-price">${{ menuItem.price }}</p>
+              <button *ngIf="login == true" class="menu-item-btn"
+                (click)="addToOrder(menuItem); navigateToOrderSummary(login)">
+                <i class="fa-sharp fa-regular fa-cart-plus"></i>
+              </button>
+              <button *ngIf="login == false" class="menu-item-btn" (click)="navigateToOrderSummary(login)">
+                <i class="fa-sharp fa-regular fa-cart-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

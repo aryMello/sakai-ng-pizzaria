@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-4">
+    <h3>Pedidos Pendentes</h3>
+    <ng-container *ngFor="let order of orderItems">
+      <div class="order-item" *ngIf="order.status === 'Pending'">
+        <h2>Quem vai receber: {{order.User}}</h2>
+        <h2>Telefone: {{order.telf}}</h2>
+        <p>Pedido #{{ order.id }}</p>
+        <p>Status: {{ order.status }}</p>
+        <ul>
+          <li *ngFor="let item of order.items">{{ item.name }} - {{ item.price }}</li>
+        </ul>
+        <p>Preço Total: {{ order.totalPrice }}</p>
+        <button class="update-button" (click)="updateOrderStatus(order.id ?? '', 'In Progress')">Mover para Em Progresso</button>
+      </div>
+    </ng-container>
+  </div>
+  <div class="col-md-4">
+    <h3>Pedidos Em Progresso</h3>
+    <ng-container *ngFor="let order of orderItems">
+      <div class="order-item" *ngIf="order.status === 'In Progress'">
+        <h2>Quem vai receber: {{order.User}}</h2>
+        <h2>Telefone: {{order.telf}}</h2>
+        <p>Pedido #{{ order.id }}</p>
+        <p>Status: {{ order.status }}</p>
+        <ul>
+          <li *ngFor="let item of order.items">{{ item.name }} - {{ item.price }}</li>
+        </ul>
+        <p>Preço Total: {{ order.totalPrice }}</p>
+        <button class="update-button" (click)="updateOrderStatus(order.id ?? '', 'Ready')">Marcar como Pronto</button>
+      </div>
+    </ng-container>
+  </div>
+  <div class="col-md-4">
+    <h3>Pedidos Prontos</h3>
+    <ng-container *ngFor="let order of orderItems">
+      <div class="order-item" *ngIf="order.status === 'Ready'">
+        <h2>Quem vai receber: {{order.User}}</h2>
+        <h2>Telefone: {{order.telf}}</h2>
+        <p>Pedido #{{ order.id }}</p>
+        <p>Status: {{ order.status }}</p>
+        <ul>
+          <li *ngFor="let item of order.items">{{ item.name }} - {{ item.price }}</li>
+        </ul>
+        <p>Preço total: {{ order.totalPrice }}</p>
+      </div>
+    </ng-container>
+    <button class="update-button" (click)="storeReadyOrders()">Arquivar pedidos entregues</button>
+  </div>
+</div>

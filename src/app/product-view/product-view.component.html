@@ -1,0 +1,23 @@
+
+<header>
+  <div class="row">
+          <div class="col-12">
+            <a routerLink="/Products" class="back-arrow">
+              <i class="fa-regular fa-chevron-left"></i>De volta ao Cardapio
+            </a>
+          </div>
+  </div>
+</header>
+<body>
+  <div *ngIf="item" class="product-container">
+    <div class="image-container">
+      <img class="horizontal-image" src="{{item.imagePath}}" alt="">
+    </div>
+    <div class="product-details">
+      <h2>{{item.name}}</h2>
+      <p>Preço: R${{item.price}}</p>
+      <p>Ingredientes: {{item.description}}</p>
+      <button class="addToCart" (click)="addToOrder(item); navigateToOrderSummary(login)">Adicionar ao carrinho</button>
+    </div>
+  </div>
+</body>

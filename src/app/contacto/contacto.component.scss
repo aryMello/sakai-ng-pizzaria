@@ -1,0 +1,61 @@
+.titulo {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  padding: 20px 0;
+  border-bottom: 2px solid #333;
+  margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header, p {
+  font-size: 48px;
+  font-weight:lighter;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  background-color: #000;
+  border-radius: 10px;
+}
+
+.ceo-content {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.recursos-humanos {
+  flex: 1;
+  
+  margin-left: 20px;
+}
+
+.logo {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 150px;
+  height: auto;
+}
+
+.goBack-container .goBack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  margin-top: 20px;
+  background-color: #fff;
+  border: 1px solid #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
+}

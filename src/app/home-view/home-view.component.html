@@ -1,0 +1,39 @@
+
+<body>
+  <header>
+    <h1 class="header">Pizzaria Angular</h1>
+    <button class="order-now" (click)="onPecaAgora()">Peça Agora</button>
+  </header>
+  
+  <div class="carousel-container">
+        <carousel>
+          <slide>
+            <img class ="picture" src="https://pizzafacil.ind.br/website2018/wp-content/uploads/2018/04/pizza-mussarela.jpg" alt="">
+          <div class ="carousel-caption">
+          </div>
+          </slide>
+          <slide>
+            <img class ="picture" src="https://www.receitasdemae.com.br/wp-content/uploads/2022/02/Pizza-de-calabresa.jpg" alt="">
+            <div class="carousel-caption">
+            </div>
+          </slide>
+          <slide>
+            <img class ="picture" src="https://static.itdg.com.br/images/1200-630/ab93c09d82d7004b7c440fe5d3d734ad/131483-original.jpg" alt ="">
+            <div class ="carousel-caption">
+            </div> 
+          </slide>
+        </carousel>
+    </div>
+  
+    <footer>
+      <div class="info-section">
+        <button class="footer-button" (click)="goWhoWeAre()">Quem Somos</button>
+      </div>
+      <div class="info-section">
+        <button class="footer-button" (click)="goContato()">Contato</button>
+      </div>
+      <div class="info-section">
+        <button class="footer-button" (click)="goEquipe()">Nossa Equipe</button>
+      </div>
+    </footer>
+</body>

@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { DashboardService } from '../../service/dashboard.service'; // Import the Firebase service
 
 @Component({
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+
     items!: MenuItem[];
 
     products!: Product[];
@@ -18,45 +18,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chartOptions: any;
 
-    totalOrders: number = 0; // Firebase dynamic data
-    totalProducts: number = 0; // Firebase dynamic data
-    totalUsers: number = 0; // Firebase dynamic data
-
     subscription!: Subscription;
 
-    constructor(
-        private productService: ProductService,
-        public layoutService: LayoutService,
-        private dashboardService: DashboardService // Inject the Firebase service
-    ) {
-        this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+    constructor(private productService: ProductService, public layoutService: LayoutService) {
+        this.subscription = this.layoutService.configUpdate$
+        .pipe(debounceTime(25))
+        .subscribe((config) => {
             this.initChart();
         });
     }
 
     ngOnInit() {
         this.initChart();
+        this.productService.getProductsSmall().then(data => this.products = data);
 
-        // Fetching small products (existing functionality)
-
-        // Initializing menu items
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
-
-        // Fetching dynamic data from Firebase
-        this.dashboardService.getTotalOrders().subscribe(data => {
-            this.totalOrders = data || 0; // Default to 0 if no data
-        });
-
-        this.dashboardService.getTotalProducts().subscribe(data => {
-            this.totalProducts = data || 0; // Default to 0 if no data
-        });
-
-        this.dashboardService.getTotalUsers().subscribe(data => {
-            this.totalUsers = data || 0; // Default to 0 if no data
-        });
     }
 
     initChart() {
@@ -74,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
                     borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: 0.4,
+                    tension: .4
                 },
                 {
                     label: 'Second Dataset',
@@ -82,39 +61,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--green-600'),
                     borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: 0.4,
-                },
-            ],
+                    tension: .4
+                }
+            ]
         };
 
         this.chartOptions = {
             plugins: {
                 legend: {
                     labels: {
-                        color: textColor,
-                    },
-                },
+                        color: textColor
+                    }
+                }
             },
             scales: {
                 x: {
                     ticks: {
-                        color: textColorSecondary,
+                        color: textColorSecondary
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false,
-                    },
+                        drawBorder: false
+                    }
                 },
                 y: {
                     ticks: {
-                        color: textColorSecondary,
+                        color: textColorSecondary
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false,
-                    },
-                },
-            },
+                        drawBorder: false
+                    }
+                }
+            }
         };
     }
 

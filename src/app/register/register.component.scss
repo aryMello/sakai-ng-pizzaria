@@ -1,0 +1,129 @@
+$white: #fff;
+$black: #000;
+$google-btn-background: $white;
+$google-btn-text: $black;
+$green: #4CAF50;  // Italian green (for buttons, etc.)
+$red: #D32F2F;    // Italian red (for accents)
+$light-cream: #F5F5DC; // Soft, light cream (Italian cafe color)
+$dark-cream: #D1C6B1; // Darker cream for a vintage feel
+$border-radius: 12px;  // Soft, rounded corners for an Italian vintage feel
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;  // Rounded image corners for a softer aesthetic
+}
+
+.google-btn {
+  width: 100%;
+  max-width: 300px;
+  height: 45px;  // Slightly taller button
+  border: none;
+  background-color: $google-btn-background;
+  color: $google-btn-text;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: $border-radius;  // Rounded corners for a more refined look
+  border: 2px solid $red;  // Red border for an Italian touch
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $red;  // Red hover effect
+    color: $white;  // White text on hover
+    border-color: $green;  // Green border on hover
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-image: url('https://c4.wallpaperflare.com/wallpaper/363/606/522/italian-pizza-wallpaper-preview.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  // Soft shadow for a more polished look
+}
+
+.image-container {
+  height: 130px;
+  margin-bottom: 10px;
+}
+
+.body {
+  width: 100%;
+  max-width: 330px;
+  margin: auto;
+  padding: 30px 20px;  // More padding for a cozy, café-like feeling
+  background-color: #fef6a1;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1, h2 {
+  font-family: 'Lora', serif;  // Classic, Italian-style serif font
+  font-weight: bold;
+  color: $black;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  color: $black;
+}
+
+.btn-primary {
+  background-color: $green;
+  color: $white;
+  border-color: $green;
+  font-weight: bold;
+  padding: 12px 30px;
+  font-size: 16px;
+  text-transform: uppercase;
+  border-radius: $border-radius;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $red;
+    color: $white;
+    border-color: $red;
+  }
+}
+
+.btn-primary:hover {
+  background-color: $red;
+  color: $white;
+  border-color: $red;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid $dark-cream;
+  background-color: $white;
+  font-size: 16px;
+  border-radius: $border-radius;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: $green;
+    outline: none;
+  }
+}
+
+a {
+  color: $green;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    color: $red;
+  }
+}
+

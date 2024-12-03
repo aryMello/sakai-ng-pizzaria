@@ -1,0 +1,127 @@
+/* Title Styling */
+.titulo {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  padding: 20px 0;
+  border-bottom: 2px solid #333;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Image Container Styling */
+.image-container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh; /* Adjust the height as needed */
+  text-align: center;
+  padding: 20px;
+  gap: 20px; /* Gap between image and caption */
+}
+
+/* Image Styling */
+.foto_grupal {
+  width: 100%; /* Make the image scale down based on screen size */
+  max-width: 700px; /* Limit the image size on larger screens */
+  height: auto;
+  border-radius: 15px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover; /* Ensure the image maintains its aspect ratio */
+}
+
+/* Image Caption Styling */
+.image-caption {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 15px 30px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  max-width: 90%; /* Ensure it's responsive */
+  margin-top: 10px;
+}
+
+/* Logo Styling */
+.logo {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 150px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the logo */
+}
+
+/* Go Back Button Styling */
+.goBack-container .goBack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #fff;
+  border: 1px solid #333;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+/* Go Back Button Hover Styling */
+.goBack-container .goBack:hover {
+  background-color: #333;
+  color: #fff;
+  transform: translateY(-3px); /* Slight lift effect on hover */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .titulo {
+      font-size: 28px;
+      padding: 15px 0;
+  }
+
+  .image-container2 {
+      height: auto;
+      padding: 10px;
+  }
+
+  .foto_grupal {
+      max-width: 30%; /* Full width for smaller screens */
+  }
+
+  .image-caption {
+      font-size: 16px;
+      padding: 12px 25px;
+  }
+
+  .goBack-container .goBack {
+      font-size: 14px;
+      padding: 10px 25px;
+  }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+  .titulo {
+      font-size: 24px;
+      padding: 10px 0;
+  }
+
+  .image-caption {
+      font-size: 14px;
+      padding: 10px 20px;
+  }
+
+  .goBack-container .goBack {
+      font-size: 12px;
+      padding: 8px 20px;
+  }
+}

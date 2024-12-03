@@ -1,0 +1,107 @@
+/* Title Styling */
+.titulo {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  padding: 20px 0;
+  border-bottom: 2px solid #333;
+  margin-bottom: 20px;
+}
+
+/* Header Styling */
+.header {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%); /* Centering the header */
+  font-size: 48px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  background-color: #000;
+  border-radius: 10px;
+}
+
+/* Mission Section */
+.mision-section {
+  position: relative;
+}
+
+/* Mission Content Styling */
+.mision-content {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+  width: 80%; /* Example width, adjust as needed */
+}
+
+/* Vision Header */
+.header-vision {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  background-color: #000;
+  border-radius: 10px;
+}
+
+/* Vision Content Styling */
+.vision-content {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+  width: 80%; /* Example width, adjust as needed */
+}
+
+/* Logo Styling */
+.logo {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 150px;
+  height: auto;
+}
+
+/* Go Back Button Styling */
+.goBack-container .goBack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #fff;
+  border: 1px solid #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Hover State for Go Back Button */
+.goBack-container .goBack:hover {
+  background-color: #000;
+  color: #fff;
+}

@@ -83,7 +83,7 @@
             z-index: 998;
             width: 100%;
             height: 100%;
-            background-color: #fcb51d;
+            background-color: var(--maskbg);
         }
 
         &.layout-mobile-active {

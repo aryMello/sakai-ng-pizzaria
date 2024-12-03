@@ -1,0 +1,56 @@
+// .orders-container {
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: 2rem;
+   
+  
+    .order-item {
+      background-color: #000;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      text-align: center;
+  
+      h3 {
+        font-size: 1.2rem;
+      }
+  
+      p {
+        margin: 0;
+      }
+  
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-size: x-large;
+  
+        li {
+         color: #90ECA5;
+        }
+      }
+  
+      .total-price {
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+    }
+  // }
+  .update-button {
+    margin-top: 5px;
+    margin-bottom: 40px;
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  
+    &:hover {
+      background-color: #0d6928;
+      color: #fff;
+    }
+  }
+  

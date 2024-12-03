@@ -1,0 +1,27 @@
+<div class="menu-items-container">
+    <div class="menu-item" *ngFor="let menuItem of menuItems">
+      <div class="image" [ngStyle]="{ backgroundImage: 'url('+menuItem.imagePath+')' }"></div>
+      <div class="info">
+        <h4 class="name">{{menuItem.name}}</h4>
+        <p class="price">R${{menuItem.price}}</p>
+        <p class="description">Description: {{menuItem.description}}</p>
+        <button class="btn btn-edit" (click)="onClickEdit(menuItem)">Editar</button>
+        <button class="btn btn-delete" (click)="onClickDelete(menuItem)">Deletar</button>
+      </div>
+    </div>
+    <div class="menu-edit-form" *ngIf="selectedMenuItem" >
+      <h2>Editar {{selectedMenuItem.name}}</h2>
+      <form (ngSubmit)="onSubmit()">
+        <label for="name">Nome:</label>
+        <input type="text" [(ngModel)]="selectedMenuItem.name" name="name">
+        <label for="image">Imagem:</label>
+        <input type="text" [(ngModel)]="selectedMenuItem.imagePath" name="image">
+        <label for="price">Preço:</label>
+        <input type="number" [(ngModel)]="selectedMenuItem.price" name="price">
+        <label for="description">Descrição:</label>
+        <textarea [(ngModel)]="selectedMenuItem.description" name="description"></textarea>
+        <button type="submit">Atualizar</button>
+      </form>
+    </div>    
+  </div>
+  

@@ -1,7 +1,7 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="https://images.scalebranding.com/pizza-slice-logo-bf9eb7b1-2de9-4591-8041-5258270b223b.jpg" alt="logo">
-        <span>Pizzaria Angular</span>
+        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
+        <span>SAKAI</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -13,13 +13,17 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button" [routerLink]="'/auth/login'">
-            <i class="pi pi-user"></i>
-            <span>Usuario</span>
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
         </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/auth/profile'">
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
             <i class="pi pi-cog"></i>
-            <span>Configuracoes Perfil</span>
+            <span>Settings</span>
         </button>
     </div>
 </div>
