@@ -1,6 +1,6 @@
 export const environment = {
   firebase: {
-    apiKey: "AIzaSyCPP3FziQGpt4oHxIf7BiNr0DHWfZu9fyo",
+    apiKey: "",
   authDomain: "pizzariaangular.firebaseapp.com",
   projectId: "pizzariaangular",
   storageBucket: "pizzariaangular.firebasestorage.app",
