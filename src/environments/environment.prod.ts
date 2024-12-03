@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyBxteluSBb6wmxo067VNBHAs5Erawm7Ic4",
+    apiKey: "",
     authDomain: "pizzaria-nr-angular.firebaseapp.com",
     databaseURL: "https://pizzaria-nr-angular-default-rtdb.firebaseio.com",
     projectId: "pizzaria-nr-angular",
