@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "npm i --force && ng build",
+        "build": "npm i --legacy-peer-deps && ng build",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
