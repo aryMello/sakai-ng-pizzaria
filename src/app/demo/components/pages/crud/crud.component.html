@@ -5,8 +5,8 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPizzas()" [disabled]="!selectedPizzas || !selectedPizzas.length"></button>
+                        <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Deletar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPizzas()" [disabled]="!selectedPizzas || !selectedPizzas.length"></button>
                     </div>
                 </ng-template>
 
@@ -31,11 +31,11 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="code">Codigo <p-sortIcon field="code"></p-sortIcon></th>
+                        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                         <th>Image</th>
-                        <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                        <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+                        <th pSortableColumn="price">Preço <p-sortIcon field="price"></p-sortIcon></th>
+                        <th pSortableColumn="category">Categoria <p-sortIcon field="category"></p-sortIcon></th>
                         <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
                         <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                         <th></th>
@@ -50,10 +50,10 @@
                             {{pizza.code || pizza.id}}
                         </td>
                         <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Name</span>
+                            <span class="p-column-title">Nome</span>
                             {{pizza.name}}
                         </td>
-                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Image</span>
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Imagem</span>
                             <img [src]="'assets/demo/images/product/' + pizza.image" [alt]="pizza.name" width="100" class="shadow-4" />
                         </td>
                         <td style="width:14%; min-width:8rem;">
@@ -85,16 +85,16 @@
             <ng-template pTemplate="content">
                 <img [src]="'assets/demo/images/product/' + pizza.image" [alt]="pizza.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="pizza.image">
                 <div class="field">
-                    <label for="name">Name</label>
+                    <label for="name">Nome</label>
                     <input type="text" pInputText id="name" [(ngModel)]="pizza.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !pizza.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !pizza.name">Name is required.</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !pizza.name">Nome é obrigatorio.</small>
                 </div>
                 <div class="field">
-                    <label for="description">Description</label>
+                    <label for="description">Descrição</label>
                     <textarea id="description" pInputTextarea [(ngModel)]="pizza.description" required rows="3" cols="20"></textarea>
                 </div>
                 <div class="field">
-                    <label for="status">Inventory Status</label>
+                    <label for="status">Inventorio</label>
                     <p-dropdown [(ngModel)]="pizza.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" placeholder="Select">
                         <ng-template pTemplate="selectedItem">
                             <span *ngIf="pizza && pizza.inventoryStatus" [class]="'product-badge status-' + pizza.inventoryStatus.toString().toLowerCase()">{{pizza.inventoryStatus}}</span>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="field">
-                    <label class="mb-3">Category</label>
+                    <label class="mb-3">Categoria</label>
                     <div class="formgrid grid">
                         <div class="field-radiobutton col-6">
                             <p-radioButton id="category1" name="category" value="Pizza" [(ngModel)]="pizza.category"></p-radioButton>
@@ -125,7 +125,7 @@
 
                 <div class="formgrid grid">
                     <div class="field col">
-                        <label for="price">Price</label>
+                        <label for="price">Preço</label>
                         <p-inputNumber id="price" [(ngModel)]="pizza.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
                     </div>
                     <div class="field col">
@@ -144,7 +144,7 @@
         <p-dialog [(visible)]="deletePizzaDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="pizza">Are you sure you want to delete <b>{{pizza.name}}</b>?</span>
+                <span *ngIf="pizza">Tem certeza que deseja deletar <b>{{pizza.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletePizzaDialog = false"></button>
@@ -155,7 +155,7 @@
         <p-dialog [(visible)]="deletePizzasDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected pizzas?</span>
+                <span>Tem certeza que deseja deletar essa pizza?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletePizzasDialog = false"></button>
