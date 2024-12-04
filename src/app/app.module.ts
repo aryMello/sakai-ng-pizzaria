@@ -18,25 +18,32 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { HttpClientModule } from '@angular/common/http';
+import { PedidoComponent } from 'src/app/demo/components/pages/pedido/pedido.component';
+import { PedidoService } from './demo/service/pedido.service';
+import { ClienteService } from './demo/service/cliente.service';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextModule } from 'primeng/inputtext';  // Adicionado caso use input text
 
 @NgModule({
     declarations: [
         AppComponent,
-        NotfoundComponent
+        NotfoundComponent,
     ],
     imports: [
         AppRoutingModule,
+        CalendarModule, // Para o calendário
         AppLayoutModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireDatabaseModule,
-        FormsModule,
-        MultiSelectModule,
-        HttpClientModule, // Needed for API calls
+        FormsModule, // Necessário para [(ngModel)]
+        MultiSelectModule, // Para multi-select
+        HttpClientModule, // Necessário para chamadas de API
+        InputTextModule, // Caso use input de texto (adicionado como exemplo)
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, PizzaService
+        PhotoService, ProductService, PizzaService, PedidoService, ClienteService, PedidoComponent
     ],
     bootstrap: [AppComponent]
 })

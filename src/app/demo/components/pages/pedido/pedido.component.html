@@ -6,8 +6,15 @@
             <!-- Toolbar for New and Delete -->
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
-                    <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                    <button pButton pRipple label="Apagar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPedidos()" [disabled]="!selectedPedidos || !selectedPedidos.length"></button>
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPedidos()" [disabled]="!selectedPedidos || !selectedPedidos.length"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
 
@@ -32,14 +39,18 @@
                         <td>{{ pedido.cliente?.nome }}</td>
                         <td>
                             <ul>
-                                <li *ngFor="let item of pedido.itens">{{ item.name }}</li>
+                                <li *ngFor="let item of pedido.itens">
+                                    {{ item.name }} - Quantidade: {{ item.quantity }}
+                                </li>
                             </ul>
                         </td>
                         <td>{{ pedido.total | currency:'BRL' }}</td>
                         <td>{{ pedido.dataPedido | date:'dd/MM/yyyy' }}</td>
                         <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPedido(pedido)"></button>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePedido(pedido)"></button>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPedido(pedido)" title="Editar Pedido"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePedido(pedido)" title="Apagar Pedido"></button>
+                            </div>
                         </td>
                     </tr>
                 </ng-template>
@@ -49,6 +60,13 @@
         <!-- Dialog for Adding/Editing Pedidos -->
         <p-dialog [(visible)]="pedidoDialog" [style]="{width: '450px'}" header="Detalhes do Pedido" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
+                <!-- Mensagens de erro -->
+                <div *ngIf="errorMessages.length > 0" class="p-error">
+                    <ul>
+                        <li *ngFor="let error of errorMessages">{{ error }}</li>
+                    </ul>
+                </div>
+
                 <!-- Cliente Dropdown -->
                 <div class="field">
                     <label for="cliente">Cliente</label>
@@ -58,40 +76,72 @@
                         optionLabel="nome" 
                         placeholder="Selecione um Cliente" 
                         required 
-                        [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.cliente}">
-                    </p-dropdown>
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.cliente}"></p-dropdown>
                     <small *ngIf="submitted && !pedido.cliente" class="p-error">Cliente é obrigatório.</small>
                 </div>
-        
-                <!-- Itens Multi-Select -->
+
+                <!-- Itens Multi-Select com quantidade -->
                 <div class="field">
                     <label for="itens">Itens</label>
-                    <p-multiSelect 
-                        [options]="itens" 
-                        [(ngModel)]="pedido.itens" 
-                        optionLabel="name" 
-                        placeholder="Selecione os Produtos" 
-                        required 
-                        [ngClass]="{'ng-invalid ng-dirty': submitted && (!pedido.itens || pedido.itens.length === 0)}">
+                    <p-multiSelect
+                        [options]="pizzas"
+                        [(ngModel)]="pedido.itens"
+                        optionLabel="name"
+                        placeholder="Selecione um Produto"
+                        required
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.itens}"
+                        [showClear]="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <div>
+                                <span>{{ item.name }} - </span>
+                                <input type="number" [(ngModel)]="item.quantity" min="1" placeholder="Qtd." style="width: 60px;" />
+                            </div>
+                        </ng-template>
                     </p-multiSelect>
-                    <small *ngIf="submitted && (!pedido.itens || pedido.itens.length === 0)" class="p-error">Itens são obrigatórios.</small>
+                    <small *ngIf="submitted && !pedido.itens" class="p-error">Itens são obrigatórios.</small>
                 </div>
-        
+
                 <!-- Total -->
                 <div class="field">
                     <label for="total">Total</label>
                     <input type="number" pInputText id="total" [(ngModel)]="pedido.total" readonly />
                 </div>
-        
+
                 <!-- Data do Pedido -->
                 <div class="field">
                     <label for="dataPedido">Data do Pedido</label>
-                    <p-calendar id="dataPedido" [(ngModel)]="pedido.dataPedido" dateFormat="dd/mm/yy"></p-calendar>
+                    <p-calendar id="dataPedido" [(ngModel)]="pedido.dataPedido" dateFormat="dd/mm/yy" [required]="true"></p-calendar>
+                    <small *ngIf="submitted && !pedido.dataPedido" class="p-error">Data do Pedido é obrigatória.</small>
                 </div>
             </ng-template>
+
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="pedidoDialog = false"></button>
-                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="savePedido()"></button>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hidePedidoDialog()" title="Cancelar"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="savePedido()" title="Salvar"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Dialog for Confirming Deletion -->
+        <p-dialog [(visible)]="deletePedidoDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="pedido">Tem certeza que deseja apagar o pedido de <b>{{pedido.cliente?.nome}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deletePedidoDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Dialog for Confirming Bulk Deletion -->
+        <p-dialog [(visible)]="deletePedidosDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza que deseja apagar os pedidos selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deletePedidosDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>
     </div>        
