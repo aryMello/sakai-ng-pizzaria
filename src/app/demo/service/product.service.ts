@@ -1,48 +1,27 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Product } from '../api/product';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-@Injectable(
-    { providedIn: 'root' }
-)
+@Injectable({
+    providedIn: 'root',
+})
 export class ProductService {
-    private basePath = "products"
+    private baseUrl = 'https://pizzaria-nr-angular-default-rtdb.firebaseio.com/products.json';
 
-    constructor(private http: HttpClient,
-        private db: AngularFireDatabase) { }
+    constructor(private http: HttpClient) {}
 
-    getProductsSmall() {
-        return this.http.get<any>('assets/demo/data/products-small.json')
-            .toPromise()
-            .then(res => res.data as Product[])
-            .then(data => data);
-    }
-
-    createProduct(product: Product): any {
-        return this.db.list<Product>(this.basePath).push(product);
-    }
-
-    getProducts() {
-        return this.http.get<any>('assets/demo/data/products.json')
-            .toPromise()
-            .then(res => res.data as Product[])
-            .then(data => data);
-    }
-
-    getProductsMixed() {
-        return this.http.get<any>('assets/demo/data/products-mixed.json')
-            .toPromise()
-            .then(res => res.data as Product[])
-            .then(data => data);
-    }
-
-    getProductsWithOrdersSmall() {
-        return this.http.get<any>('assets/demo/data/products-orders-small.json')
-            .toPromise()
-            .then(res => res.data as Product[])
-            .then(data => data);
+    // Fetch all products from Firebase
+    getProducts(): Observable<any[]> {
+        return this.http.get<any[]>(this.baseUrl).pipe(
+            map((response) => {
+                const products: any[] = [];
+                for (const key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        products.push({ ...response[key], key }); // Include the Firebase key
+                    }
+                }
+                return products;
+            })
+        );
     }
 }

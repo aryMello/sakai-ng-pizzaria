@@ -68,36 +68,6 @@
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.nome">Nome é obrigatório.</small>
                 </div>
                 <div class="field">
-                    <label for="rua">Rua</label>
-                    <input type="text" pInputText id="rua" [(ngModel)]="cliente.rua" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.rua}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.rua">Rua é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="bairro">Bairro</label>
-                    <input type="text" pInputText id="bairro" [(ngModel)]="cliente.bairro" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.bairro}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.bairro">Bairro é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="numero">Número</label>
-                    <input type="number" pInputText id="numero" [(ngModel)]="cliente.numero" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.numero}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.numero">Número é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="cidade">Cidade</label>
-                    <input type="text" pInputText id="cidade" [(ngModel)]="cliente.cidade" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.cidade}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.cidade">Cidade é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="cep">CEP</label>
-                    <input type="text" pInputText id="cep" [(ngModel)]="cliente.cep" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.cep}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.cep">CEP é obrigatório.</small>
-                </div>
-                <div class="field">
-                    <label for="estado">Estado</label>
-                    <input type="text" pInputText id="estado" [(ngModel)]="cliente.estado" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.estado}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.estado">Estado é obrigatório.</small>
-                </div>
-                <div class="field">
                     <label for="telefone">Telefone</label>
                     <input type="text" pInputText id="telefone" [(ngModel)]="cliente.telefone" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.telefone}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.telefone">Telefone é obrigatório.</small>
@@ -124,6 +94,31 @@
                         <span>{{option.label}}</span>
                       </ng-template>
                     </p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="cep">CEP</label>
+                    <input type="text" pInputText id="cep" [(ngModel)]="cliente.cep" (blur)="buscarCep()" required />
+                </div>
+                <div class="field">
+                    <label for="estado">Estado</label>
+                    <input type="text" pInputText id="estado" [(ngModel)]="cliente.estado" readonly />
+                </div>
+                <div class="field">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" pInputText id="cidade" [(ngModel)]="cliente.cidade" readonly />
+                </div>
+                <div class="field">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" pInputText id="bairro" [(ngModel)]="cliente.bairro" readonly />
+                </div>
+                <div class="field">
+                    <label for="rua">Rua</label>
+                    <input type="text" pInputText id="rua" [(ngModel)]="cliente.rua" readonly />
+                </div>
+                <div class="field">
+                    <label for="numero">Número</label>
+                    <input type="number" pInputText id="numero" [(ngModel)]="cliente.numero" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.numero}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.numero">Número é obrigatório.</small>
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">

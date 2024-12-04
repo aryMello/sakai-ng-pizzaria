@@ -2,53 +2,54 @@
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
+
+            <!-- Toolbar for New and Delete -->
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                        <button pButton pRipple label="Apagar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPedidos()" [disabled]="!selectedPedidos || !selectedPedidos.length"></button>
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedPedidos()" [disabled]="!selectedPedidos || !selectedPedidos.length"></button>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Importar" chooseLabel="Importar" class="mr-2 inline-block"></p-fileUpload>
-                    <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="pedidos" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['cliente.nome','total','dataPedido']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [(selection)]="selectedPedidos" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <!-- Table to Display Pedidos -->
+            <p-table #dt [value]="pedidos" [columns]="cols" responsiveLayout="scroll" [rows]="10" [paginator]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas" [(selection)]="selectedPedidos" selectionMode="multiple">
                 <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Gerenciar Pedidos</h5>
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar..." class="w-full sm:w-auto"/>
-                        </span>
-                    </div>
+                    <h5 class="m-0">Gerenciar Pedidos</h5>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
+                        <th pSelectableRowCheckbox></th>
                         <th pSortableColumn="cliente.nome">Cliente <p-sortIcon field="cliente.nome"></p-sortIcon></th>
-                        <th pSortableColumn="total">Total <p-sortIcon field="total"></p-sortIcon></th>
-                        <th pSortableColumn="dataPedido">Data do Pedido <p-sortIcon field="dataPedido"></p-sortIcon></th>
+                        <th pSortableColumn="itens">Itens</th>
+                        <th pSortableColumn="total">Total</th>
+                        <th pSortableColumn="dataPedido">Data do Pedido</th>
                         <th>Ações</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-pedido>
                     <tr>
+                        <td><p-tableCheckbox [value]="pedido"></p-tableCheckbox></td>
+                        <td>{{ pedido.cliente?.nome }}</td>
                         <td>
-                            <p-tableCheckbox [value]="pedido"></p-tableCheckbox>
+                            <ul>
+                                <li *ngFor="let item of pedido.itens">
+                                    {{ item.name }} - Quantidade: {{ item.quantity }}
+                                </li>
+                            </ul>
                         </td>
-                        <td>{{pedido.cliente.nome}}</td>
-                        <td>{{pedido.total | currency:'BRL'}}</td>
-                        <td>{{pedido.dataPedido | date:'dd/MM/yyyy'}}</td>
+                        <td>{{ pedido.total | currency:'BRL' }}</td>
+                        <td>{{ pedido.dataPedido | date:'dd/MM/yyyy' }}</td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPedido(pedido)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePedido(pedido)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPedido(pedido)" title="Editar Pedido"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePedido(pedido)" title="Apagar Pedido"></button>
                             </div>
                         </td>
                     </tr>
@@ -56,8 +57,17 @@
             </p-table>
         </div>
 
+        <!-- Dialog for Adding/Editing Pedidos -->
         <p-dialog [(visible)]="pedidoDialog" [style]="{width: '450px'}" header="Detalhes do Pedido" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
+                <!-- Mensagens de erro -->
+                <div *ngIf="errorMessages.length > 0" class="p-error">
+                    <ul>
+                        <li *ngFor="let error of errorMessages">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <!-- Cliente Dropdown -->
                 <div class="field">
                     <label for="cliente">Cliente</label>
                     <p-dropdown 
@@ -66,41 +76,73 @@
                         optionLabel="nome" 
                         placeholder="Selecione um Cliente" 
                         required 
-                        autofocus 
-                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !pedido.cliente}">
-                    </p-dropdown>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !pedido.cliente">Cliente é obrigatório.</small>
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.cliente}"></p-dropdown>
+                    <small *ngIf="submitted && !pedido.cliente" class="p-error">Cliente é obrigatório.</small>
                 </div>
+
+                <!-- Itens Multi-Select com quantidade -->
                 <div class="field">
                     <label for="itens">Itens</label>
-                    <p-multiSelect 
-                        [options]="pizzas" 
-                        [(ngModel)]="pedido.itens" 
-                        optionLabel="name" 
-                        placeholder="Selecione as Pizzas">
+                    <p-multiSelect
+                        [options]="pizzas"
+                        [(ngModel)]="pedido.itens"
+                        optionLabel="name"
+                        placeholder="Selecione um Produto"
+                        required
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && !pedido.itens}"
+                        [showClear]="true">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <div>
+                                <span>{{ item.name }} - </span>
+                                <input type="number" [(ngModel)]="item.quantity" min="1" placeholder="Qtd." style="width: 60px;" />
+                            </div>
+                        </ng-template>
                     </p-multiSelect>
+                    <small *ngIf="submitted && !pedido.itens" class="p-error">Itens são obrigatórios.</small>
                 </div>
+
+                <!-- Total -->
                 <div class="field">
                     <label for="total">Total</label>
-                    <input type="number" pInputText id="total" [(ngModel)]="pedido.total" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !pedido.total}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !pedido.total">Total é obrigatório.</small>
+                    <input type="number" pInputText id="total" [(ngModel)]="pedido.total" readonly />
                 </div>
+
+                <!-- Data do Pedido -->
                 <div class="field">
                     <label for="dataPedido">Data do Pedido</label>
-                    <p-calendar id="dataPedido" [(ngModel)]="pedido.dataPedido" dateFormat="dd/mm/yy"></p-calendar>
+                    <p-calendar id="dataPedido" [(ngModel)]="pedido.dataPedido" dateFormat="dd/mm/yy" [required]="true"></p-calendar>
+                    <small *ngIf="submitted && !pedido.dataPedido" class="p-error">Data do Pedido é obrigatória.</small>
                 </div>
             </ng-template>
+
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="savePedido()"></button>
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hidePedidoDialog()" title="Cancelar"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="savePedido()" title="Salvar"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deletePedidoDialog" [style]="{width: '450px'}" header="Confirmar" modal="modal" [closable]="false">
+        <!-- Dialog for Confirming Deletion -->
+        <p-dialog [(visible)]="deletePedidoDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="pedido">Tem certeza que deseja apagar o pedido de <b>{{pedido.cliente?.nome}}</b>?</span>
+            </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Não" icon="pi pi-times" class="p-button-text" (click)="deletePedidoDialog = false"></button>
-                <button pButton pRipple label="Sim" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deletePedidoDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
-    </div>
+
+        <!-- Dialog for Confirming Bulk Deletion -->
+        <p-dialog [(visible)]="deletePedidosDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza que deseja apagar os pedidos selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deletePedidosDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>        
 </div>

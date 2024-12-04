@@ -26,8 +26,6 @@ export class ListDemoComponent implements OnInit {
     constructor(private productService: ProductService) { }
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
-
         this.sourceCities = [
             { name: 'San Francisco', code: 'SF' },
             { name: 'London', code: 'LDN' },
