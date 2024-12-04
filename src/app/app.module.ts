@@ -33,7 +33,7 @@ import { InputTextModule } from 'primeng/inputtext';  // Adicionado caso use inp
         AppRoutingModule,
         CalendarModule, // Para o calendário
         AppLayoutModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         FormsModule, // Necessário para [(ngModel)]
         MultiSelectModule, // Para multi-select
